@@ -1,6 +1,6 @@
 # Engine Lab
 
-Standalone real-time ship audio workshop for NULL RANGE.
+Standalone real-time ship audio workshop for NULL RANGE [nullrange.com].
 
 This repo is intentionally narrow: one page, one audio graph, and the default loop assets needed to tune the ship engine voice in-browser.
 
