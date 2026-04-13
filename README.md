@@ -18,7 +18,7 @@ npm install
 npm run dev
 ```
 
-Then open `http://127.0.0.1:5173/engine-lab.html`.
+Then open the local URL printed by Vite for `engine-lab.html`.
 
 ## Production Build
 
