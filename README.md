@@ -25,3 +25,8 @@ Then open the local URL printed by Vite for `engine-lab.html`.
 ```bash
 npm run build
 ```
+
+## License
+
+This project is licensed under `CC BY 4.0` and requires attribution:
+https://creativecommons.org/licenses/by/4.0/
