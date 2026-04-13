@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NULL RANGE - Engine Lab</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Antonio:wght@400;700&family=Chakra+Petch:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="engine-lab-page engine-lab-engine-page">
+  <div id="app-container" class="engine-lab-shell">
+    <div class="engine-lab-stage">
+      <div class="engine-lab-stage-copy">
+        <div class="engine-lab-kicker">NULL RANGE / Real-Time Engine Tuning</div>
+        <h1 class="engine-lab-title">Engine Lab</h1>
+      </div>
+
+      <div class="engine-lab-scope-shell">
+        <canvas id="engine-lab-scope" width="960" height="240" aria-label="Ship audio oscilloscope"></canvas>
+      </div>
+
+      <div class="engine-lab-readouts engine-lab-readouts-engine">
+        <div class="engine-lab-readout">
+          <span class="engine-lab-label">Throttle</span>
+          <strong id="engine-lab-throttle-readout">0%</strong>
+        </div>
+        <div class="engine-lab-readout">
+          <span class="engine-lab-label">Boost</span>
+          <strong id="engine-lab-boost-readout">Idle</strong>
+        </div>
+        <div class="engine-lab-readout">
+          <span class="engine-lab-label">Turn</span>
+          <strong id="engine-lab-turn-readout">0%</strong>
+        </div>
+      </div>
+
+      <div class="engine-lab-loop-groups">
+        <section class="engine-lab-loop-card">
+          <div class="engine-lab-loop-card-head">
+            <span class="engine-lab-label">Engine Loop</span>
+            <strong id="engine-lab-loop-readout" class="engine-lab-readout-compact">No sample</strong>
+          </div>
+          <div class="engine-lab-actions engine-lab-actions-engine">
+            <button id="engine-lab-load-loop" class="engine-lab-action-button">Load Engine Loop <span>mp3 / wav / ogg</span></button>
+            <button id="engine-lab-clear-loop" class="engine-lab-action-button" type="button">Clear Engine Loop <span>keep synth running</span></button>
+          </div>
+        </section>
+
+        <section class="engine-lab-loop-card">
+          <div class="engine-lab-loop-card-head">
+            <span class="engine-lab-label">Ambient Loop</span>
+            <strong id="engine-lab-ambient-readout" class="engine-lab-readout-compact">No sample</strong>
+          </div>
+          <div class="engine-lab-actions engine-lab-actions-engine">
+            <button id="engine-lab-load-ambient" class="engine-lab-action-button">Load Ambient Loop <span>cockpit bed</span></button>
+            <button id="engine-lab-clear-ambient" class="engine-lab-action-button" type="button">Clear Ambient Loop <span>remove layer</span></button>
+            <button id="engine-lab-toggle-ambient" class="engine-lab-action-button engine-lab-action-button-wide" type="button">Toggle Ambient <span>on / off</span></button>
+          </div>
+        </section>
+      </div>
+
+      <div class="engine-lab-controls">
+        <button class="engine-lab-control" data-control="accelerate">Accelerate <span>W</span></button>
+        <button class="engine-lab-control" data-control="brake">Brake <span>S</span></button>
+        <button class="engine-lab-control" data-control="left">Bank Left <span>A</span></button>
+        <button class="engine-lab-control" data-control="right">Bank Right <span>D</span></button>
+        <button class="engine-lab-control" data-control="boost">Boost <span>Shift</span></button>
+        <button class="engine-lab-control" data-control="groan">Groan <span>G</span></button>
+      </div>
+
+      <div class="engine-lab-hint-row">
+        <span>Keyboard and click-hold controls both work.</span>
+        <span>Built by <a class="engine-lab-attribution engine-lab-attribution-inline" href="https://twitter.com/taylor_sntx" target="_blank" rel="noopener noreferrer">@taylor_sntx</a> for <a class="engine-lab-attribution engine-lab-attribution-inline" href="https://nullrange.com" target="_blank" rel="noopener noreferrer">NULL RANGE</a></span>
+      </div>
+
+      <div id="engine-lab-toast" class="shipyard-toast engine-lab-toast" aria-live="polite"></div>
+    </div>
+
+    <div id="panel-container" class="hidden"></div>
+  </div>
+
+  <script type="module" src="/src/engineLab.js"></script>
+</body>
+
+</html>

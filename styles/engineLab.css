@@ -1,0 +1,566 @@
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+body.engine-lab-page {
+  --engine-lab-surface: #ffa500;
+  --engine-lab-ink: #08080b;
+  --engine-lab-paper: #f5f3ef;
+  --engine-lab-scope-width: clamp(300px, 34vw, 430px);
+  --engine-lab-page-pad: clamp(30px, 4vw, 58px);
+  background: var(--engine-lab-surface);
+  color: var(--engine-lab-ink);
+  font-family: 'Space Mono', 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+body.engine-lab-page #app-container.engine-lab-shell {
+  display: flex;
+  min-height: 100vh;
+  align-items: stretch;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0,
+      transparent var(--engine-lab-scope-width),
+      var(--engine-lab-surface) var(--engine-lab-scope-width),
+      var(--engine-lab-surface) 100%
+    );
+}
+
+body.engine-lab-page #panel-container {
+  width: 332px;
+  min-width: 332px;
+  background: rgba(8, 8, 11, 0.96);
+  border-left: 1px solid rgba(0, 0, 0, 0.24);
+}
+
+.engine-lab-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 100%;
+  padding: var(--engine-lab-page-pad);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(260px, var(--engine-lab-scope-width)) minmax(0, 1fr);
+  grid-template-rows: auto auto auto auto 1fr auto;
+  grid-template-areas:
+    'scope copy'
+    'scope readouts'
+    'scope actions'
+    'scope fx'
+    'scope controls'
+    'scope hints'
+    'scope toast';
+  gap: 16px;
+  align-content: end;
+  background: transparent;
+}
+
+.engine-lab-hud {
+  position: absolute;
+  z-index: 3;
+  color: rgba(245, 243, 239, 0.82);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.engine-lab-hud-top-left {
+  top: 24px;
+  left: 20px;
+  width: calc(var(--engine-lab-scope-width) - 40px);
+}
+
+.engine-lab-hud-block {
+  margin-bottom: 6px;
+}
+
+.engine-lab-hud-value {
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 700;
+}
+
+.engine-lab-stage-copy,
+.engine-lab-scope-shell,
+.engine-lab-readouts,
+.engine-lab-actions,
+.engine-lab-fx-grid,
+.engine-lab-controls,
+.engine-lab-hint-row,
+.engine-lab-toast {
+  position: relative;
+  z-index: 1;
+}
+
+.engine-lab-stage-copy {
+  grid-area: copy;
+  align-self: end;
+  max-width: 760px;
+  margin-bottom: 4px;
+}
+
+.engine-lab-title {
+  margin: 0;
+  color: var(--engine-lab-ink);
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: clamp(6rem, 12vw, 10.2rem);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.engine-lab-title-word {
+  display: inline-block;
+}
+
+.engine-lab-stage-copy p {
+  max-width: 58ch;
+  margin: 6px 0 0;
+  color: rgba(8, 8, 11, 0.76);
+  font-size: 0.72rem;
+  line-height: 1.65;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.engine-lab-kicker {
+  color: rgba(8, 8, 11, 0.85);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.engine-lab-scope-shell {
+  grid-area: scope;
+  position: relative;
+  min-height: calc(100vh - (var(--engine-lab-page-pad) * 2));
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  background: var(--engine-lab-ink);
+  overflow: hidden;
+}
+
+#engine-lab-scope {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.engine-lab-readouts {
+  grid-area: readouts;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.engine-lab-readout {
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.86);
+  background: var(--engine-lab-ink);
+}
+
+.engine-lab-readout-wide {
+  grid-column: span 2;
+}
+
+.engine-lab-label {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(245, 243, 239, 0.58);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.engine-lab-readout strong {
+  color: var(--engine-lab-paper);
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.engine-lab-readout-compact {
+  font-size: clamp(1rem, 1.35vw, 1.4rem);
+  letter-spacing: 0;
+  line-height: 1.05;
+}
+
+.engine-lab-actions {
+  grid-area: actions;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.engine-lab-action-button {
+  min-height: 68px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.86);
+  background: rgba(8, 8, 11, 0.86);
+  color: var(--engine-lab-paper);
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease, opacity 0.14s ease;
+}
+
+.engine-lab-action-button span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(245, 243, 239, 0.62);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.engine-lab-action-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--engine-lab-paper);
+  color: var(--engine-lab-ink);
+}
+
+.engine-lab-action-button:hover:not(:disabled) span {
+  color: rgba(8, 8, 11, 0.64);
+}
+
+.engine-lab-action-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.engine-lab-fx-grid {
+  grid-area: fx;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.engine-lab-fx-button {
+  min-height: 64px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.72);
+  background: rgba(255, 255, 255, 0.18);
+  color: var(--engine-lab-ink);
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease, opacity 0.14s ease;
+}
+
+.engine-lab-fx-button span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(8, 8, 11, 0.62);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.engine-lab-fx-button:hover:not(:disabled),
+.engine-lab-fx-button.active {
+  transform: translateY(-1px);
+  background: rgba(8, 8, 11, 0.94);
+  color: var(--engine-lab-paper);
+}
+
+.engine-lab-fx-button:hover:not(:disabled) span,
+.engine-lab-fx-button.active span {
+  color: rgba(245, 243, 239, 0.7);
+}
+
+.engine-lab-fx-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.engine-lab-controls {
+  grid-area: controls;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.engine-lab-control {
+  min-height: 82px;
+  padding: 16px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.86);
+  background: var(--engine-lab-ink);
+  color: var(--engine-lab-paper);
+  font-family: 'Antonio', 'Arial Narrow', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  text-align: left;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% 78%, calc(100% - 14px) 100%, 0 100%);
+  transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease;
+}
+
+.engine-lab-control span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(245, 243, 239, 0.62);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.engine-lab-control:hover,
+.engine-lab-control.active {
+  transform: translateY(-1px);
+  background: var(--engine-lab-paper);
+  color: var(--engine-lab-ink);
+}
+
+.engine-lab-control.active {
+  background: var(--engine-lab-surface);
+}
+
+.engine-lab-control:hover span,
+.engine-lab-control.active span {
+  color: rgba(8, 8, 11, 0.64);
+}
+
+.engine-lab-hint-row {
+  grid-area: hints;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-self: end;
+  color: rgba(8, 8, 11, 0.68);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.engine-lab-toast {
+  grid-area: toast;
+  margin-top: auto;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.86);
+  background: var(--engine-lab-ink);
+  color: var(--engine-lab-paper);
+}
+
+.engine-lab-attribution {
+  color: #08080b;
+  text-decoration: none;
+}
+
+.engine-lab-attribution:visited,
+.engine-lab-attribution:active,
+.engine-lab-attribution:hover {
+  color: #08080b;
+}
+
+body.engine-lab-engine-page #app-container.engine-lab-shell {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0,
+      transparent var(--engine-lab-scope-width),
+      rgba(255, 165, 0, 0.88) var(--engine-lab-scope-width),
+      var(--engine-lab-surface) 100%
+    );
+}
+
+body.engine-lab-engine-page .engine-lab-stage {
+  grid-template-rows: auto auto auto 1fr auto;
+  grid-template-areas:
+    'scope copy'
+    'scope readouts'
+    'scope actions'
+    'scope controls'
+    'scope hints'
+    'scope toast';
+  align-content: start;
+}
+
+body.engine-lab-engine-page .engine-lab-stage-copy {
+  margin-top: 0;
+  max-width: 640px;
+  align-self: start;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+body.engine-lab-engine-page .engine-lab-title {
+  font-size: clamp(4.5rem, 9vw, 7.6rem);
+  letter-spacing: -0.06em;
+  white-space: normal;
+  margin-top: -6px;
+}
+
+body.engine-lab-engine-page .engine-lab-kicker {
+  margin: 0;
+}
+
+.engine-lab-readouts-engine {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.engine-lab-loop-groups {
+  grid-area: actions;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.engine-lab-loop-card {
+  padding: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.86);
+  background: rgba(8, 8, 11, 0.12);
+}
+
+.engine-lab-loop-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+body.engine-lab-engine-page .engine-lab-actions-engine {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.engine-lab-action-button-wide {
+  grid-column: span 2;
+}
+
+body.engine-lab-engine-page .engine-lab-action-button {
+  min-height: 62px;
+  font-size: 1.05rem;
+}
+
+.engine-lab-attribution-inline {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+@media (max-width: 1100px) {
+  body.engine-lab-page #app-container.engine-lab-shell {
+    flex-direction: column;
+    background: var(--engine-lab-surface);
+  }
+
+  body.engine-lab-page #panel-container {
+    width: 100%;
+    min-width: 0;
+    height: 44vh;
+  }
+
+  .engine-lab-stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(260px, 34vh) auto auto auto auto auto auto auto;
+    grid-template-areas:
+      'scope'
+      'copy'
+      'readouts'
+      'actions'
+      'fx'
+      'controls'
+      'hints'
+      'toast';
+  }
+
+  .engine-lab-hud-top-left {
+    width: calc(100% - 40px);
+  }
+
+  .engine-lab-scope-shell {
+    min-height: 260px;
+  }
+
+  .engine-lab-readouts,
+  .engine-lab-readouts-engine {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .engine-lab-readout-wide {
+    grid-column: span 2;
+  }
+
+  .engine-lab-fx-grid,
+  .engine-lab-loop-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.engine-lab-engine-page .engine-lab-stage {
+    grid-template-rows: minmax(260px, 34vh) auto auto auto auto auto auto;
+    grid-template-areas:
+      'scope'
+      'copy'
+      'readouts'
+      'actions'
+      'controls'
+      'hints'
+      'toast';
+  }
+}
+
+@media (max-width: 720px) {
+  .engine-lab-stage {
+    padding: 24px;
+  }
+
+  .engine-lab-actions,
+  .engine-lab-fx-grid,
+  .engine-lab-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .engine-lab-title {
+    font-size: clamp(4.8rem, 17vw, 7rem);
+    white-space: normal;
+  }
+}
+
+@media (max-width: 560px) {
+  .engine-lab-readouts,
+  .engine-lab-actions,
+  .engine-lab-fx-grid,
+  .engine-lab-controls,
+  .engine-lab-loop-groups,
+  body.engine-lab-engine-page .engine-lab-actions-engine {
+    grid-template-columns: 1fr;
+  }
+
+  .engine-lab-readout-wide,
+  .engine-lab-action-button-wide {
+    grid-column: span 1;
+  }
+}
